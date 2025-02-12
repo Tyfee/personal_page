@@ -1,0 +1,27 @@
+.me{
+    width: 150px;
+    padding: 30px;
+    image-rendering: pixelated !important;
+    rotate: -90deg;
+    
+}
+.div{
+    cursor: url('../assets/cursor.cur'), auto;
+}
+
+.program_icon{
+    width: 80px;
+    image-rendering: pixelated;
+    padding: 20px;
+}
+.icon{
+    width: 60px;
+    padding: 10px;
+}
+.icon:hover{
+    transform: scale(1.1);
+}
+
+.program_icon:hover{
+    transform: scale(1.1);
+}

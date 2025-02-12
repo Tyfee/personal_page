@@ -1,0 +1,19 @@
+.current::after{
+content:'';
+display: inline-block;
+    width: 5px;
+margin-left: 9px;
+height: 12px;
+background-color: white;
+animation: flickering 0.5s alternate-reverse infinite;
+}
+
+
+@keyframes flickering {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
