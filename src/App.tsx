@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import icon from './assets/logo-DA53tF8t.png'
 import { useLoader, useThree } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Decal, PerspectiveCamera } from '@react-three/drei'
@@ -17,17 +16,15 @@ import { DecalGeometry } from 'three/examples/jsm/Addons.js'
 import tf from './assets/tf.jpg'
 import op from './assets/artpoin-one-piece-cute3.png'
 import mk from './assets/monokuma.png'
+import ymo from './assets/ymo.png'
+import jags from './assets/jacksonville-jaguars-nfl-logo-sticker-ua5e2-x450.png'
 
-import terminal_ic from './assets/baixados.png'
-import music_ic from './assets/cd_audio_cd_a-4.png'
-import video_ic from './assets/media_player_file-2.png'
-import computer_icon from './assets/baixados_.png'
-import shut_icon from './assets/shut_down_normal-4.png'
+
 import { texture } from 'three/tsl'
 import { Html } from '@react-three/drei'
-import Window98 from 'react-ninetyeight'
-import Main from './pages/Main'
-import Terminal from './pages/Terminal'
+import Computer1 from './Computer1'
+import Computer2 from './Computer2'
+
 function Computer() {
   const gltf = useLoader(GLTFLoader, '/old_computers.glb')
   return <primitive position={[0,-5,0]} scale={[3,3,3]} object={gltf.scene} />
@@ -41,14 +38,8 @@ function App() {
   const [hovered, setHovered] = useState(false)
   const [cameraPos, setCameraPos] = useState([0,0,5])
 const [usingComputer, setUsingComputer] = useState(-1)
-const [mainIndex, setMainIndex] = useState(0)
 const cameraRef = useRef(null)
-const programs = [
-  "pay me epitath records!!",
-  "terminal terminal",
-  "videos about literally nothing",
-  "some of my below-average music"
-]
+
 
 function Camera(){
   const { camera } = useThree()
@@ -57,8 +48,34 @@ function Camera(){
 
  useEffect(() => {
     if (cameraRef.current) {
-      cameraRef.current.position.set(cameraPos[0], cameraPos[1], cameraPos[2]);
-      cameraRef.current.updateProjectionMatrix(); // Always update the projection matrix after changing the camera
+    
+  // Assuming cameraRef is your camera object and cameraPos is your target position.
+const targetPosition = [cameraPos[0], cameraPos[1], cameraPos[2]];
+const currentPosition = cameraRef.current.position.toArray();
+
+// Smoothness factor, tweak for faster or slower movement.
+const smoothFactor = 0.9;
+
+// In your update loop (like in a render or animation loop):
+const lerpPosition = [
+  currentPosition[0] + (targetPosition[0] - currentPosition[0]) * smoothFactor,
+  currentPosition[1] + (targetPosition[1] - currentPosition[1]) * smoothFactor,
+  currentPosition[2] + (targetPosition[2] - currentPosition[2]) * smoothFactor
+];
+
+cameraRef.current.position.set(lerpPosition[0], lerpPosition[1], lerpPosition[2]);
+
+
+if(usingComputer == 1){
+  cameraRef.current.rotation.set(0,-.4,0);
+}
+if(usingComputer == 2){
+  cameraRef.current.rotation.set(0,1.02,0);
+}
+if(usingComputer == -1){
+  cameraRef.current.rotation.set(0,0,0);
+}
+  
     }
   }, [cameraPos]);
 }
@@ -66,10 +83,12 @@ function Camera(){
 const goTo = (index: number, pos: Array<number>) => {
  
     setCameraPos([pos[0], pos[1], pos[2]])
+  setTimeout(() => {
 
- setUsingComputer(index)
+    setUsingComputer(index)
 
-  setHovered(false)
+    setHovered(false)
+  }, 100)
 
   
 
@@ -131,6 +150,14 @@ const Collision = (props: any) => {
     )
   }
 
+
+const returnToRoom =() => {
+  setUsingComputer(-1)
+  setCurrentComputer(-1)
+  goTo(-1, [0,0,5])
+
+}
+
   return (
     <>   <div onClick={() => {
       if (usingComputer == -1) {
@@ -139,10 +166,10 @@ const Collision = (props: any) => {
             goTo(0, [1, 1.3, -5]);
             break;
           case 1:
-            goTo(1, [4, -2, 0]);
+            goTo(1, [4, -2, -2.8]);
             break;
           case 2:
-            goTo(2, [-6, -1, 2]);
+            goTo(2, [-3, -1, -2]);
             break;
           default:
             // Optionally handle default case or do nothing
@@ -153,67 +180,24 @@ const Collision = (props: any) => {
 <PerspectiveCamera
 position={new Vector3(cameraPos[0], cameraPos[1], cameraPos[2])}/>
        <Camera/>
-        <pointLight position={[0,1,-4]} intensity={shine} color={'lime'}/>
+        <pointLight position={[0,1,-4]} intensity={shine / 1.2} color={'lime'}/>
        <Collision index={0} scale={[2.5,1.8,1]} position={[.56,1, -4]}/>
    <Sticker position={[0, -0.15, -7.200]} texture={tf}/>
    <Sticker position={[2.9, .5, -7.200]} texture={op}/>
    
    <Sticker position={[-1.24, 2, -7.200]} texture={mk}/>
+   
+   <Sticker position={[2.89, 2.2, -7.200]} texture={ymo}/>
+   
+   <Sticker position={[2.8, -0.1, -7.200]} texture={jags}/>
    { usingComputer == 0 &&
 <>
 <mesh scale={[3.45,2.55,1]} position={[.82,1.43,-7.2]}>
 <planeGeometry />
-<Html  
-scale={[1,1, 1]}
- position={[-.4,.4,0]}
-    style={{
-      borderRadius: '50px',       
-      textAlign: 'center', 
-
-
-    animation: 'flicker 0.7s infinite alternate',
-    
-  }}
-   as='div'>
-    <Window98
-    icon={icon}
-    actions={['minimize', 'close']}
-    width={"800px"}
-    color={'#003303'}
-    color2={'#517866'}
-    title={programs[mainIndex]}
-    content={<>
-    {mainIndex == 0 ?<Main/>
-    : mainIndex == 1? <Terminal/>
-    : mainIndex == 2? <Terminal/>
-    : mainIndex == 3? <Terminal/>
-    
-    : mainIndex == 4? <Terminal/>
-  : <></>}
-    </>}
-    />
-
-
-    <p>
-      <div style={{display: 'flex'}}>
-
-      <img onClick={() => setMainIndex(0)} className='program_icon' src={computer_icon}/>
-<img onClick={() => setMainIndex(1)} className='program_icon' src={terminal_ic}/>
-<img onClick={() => setMainIndex(2)} className='program_icon' src={video_ic}/>
-<img onClick={() => setMainIndex(3)} className='program_icon' src={music_ic}/>
-<img onClick={() => setMainIndex(4)} className='program_icon' src={video_ic}/>
-<img onClick={() => {
-  console.log('huu')
-  setUsingComputer(-1)
-  setCurrentComputer(-1)
-  goTo(-1, [0,0,5])}} className='program_icon' src={shut_icon}/>
-
-      </div>
-    </p>
-  </Html>
   <meshPhongMaterial
   />
-<pointLight
+  <Computer1 onShut={returnToRoom}/>
+  <pointLight
 intensity={10}
 color={'lime'}
 decay={.2}
@@ -233,6 +217,36 @@ decay={.2}
   }
   
 
+
+  { usingComputer == 1 &&
+<>
+<mesh scale={[3.45,2.55,1]} position={[.82,1.43,-7.2]}>
+<planeGeometry />
+  <meshPhongMaterial
+  />
+  <Computer2 onShut={returnToRoom}/>
+<pointLight
+intensity={10}
+color={'lime'}
+decay={.2}
+/>
+  </mesh>
+  
+  
+  <EffectComposer>
+  
+  
+  <Pixelation
+    granularity={3} // pixel granularity
+  />
+ 
+      </EffectComposer>
+  </>
+  }
+
+
+
+
         <pointLight position={[4,-2,-2]} intensity={shine} color={'lime'}/>
         <Collision rotation={[0,-.3,0]} index={1} scale={[3.3,2.4,.1]} position={[4.9,-1.85,-4]}/>
         
@@ -240,7 +254,7 @@ decay={.2}
         <Collision rotation={[0,-5.1,0]} index={2} scale={[2.1,1.8,.1]} position={[-5.2,-.87,0.45]}/>
         
 
-        <ambientLight intensity={1.0}/>
+        <ambientLight color={'white'} intensity={1}/>
      <Computer/>
         </Canvas>
    </div>
