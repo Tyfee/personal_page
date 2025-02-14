@@ -18,18 +18,28 @@ import op from './assets/artpoin-one-piece-cute3.png'
 import mk from './assets/monokuma.png'
 import ymo from './assets/ymo.png'
 import jags from './assets/jacksonville-jaguars-nfl-logo-sticker-ua5e2-x450.png'
-
+import ukiyoe from './assets/7c066eedac98ecc7b06613a51ccf569f_t-removebg-preview.png'
 
 import { texture } from 'three/tsl'
 import { Html } from '@react-three/drei'
 import Computer1 from './Computer1'
 import Computer2 from './Computer2'
+import Computer3 from './Computer3'
 
 function Computer() {
   const gltf = useLoader(GLTFLoader, '/old_computers.glb')
-  return <primitive position={[0,-5,0]} scale={[3,3,3]} object={gltf.scene} />
-}
+  const computerRef = useRef()
 
+  useEffect(() => {
+    if (gltf && gltf.scene) {
+      gltf.scene.traverse((child: any) => {
+    
+      })
+    }
+  }, [gltf])
+
+  return <primitive ref={computerRef} position={[0, -5, 0]} scale={[3, 3, 3]} object={gltf.scene} />
+}
 
 
 function App() {
@@ -37,6 +47,7 @@ function App() {
   const [currentComputer, setCurrentComputer] = useState(-1)
   const [hovered, setHovered] = useState(false)
   const [cameraPos, setCameraPos] = useState([0,0,5])
+  const [light, setLight] = useState('lime')
 const [usingComputer, setUsingComputer] = useState(-1)
 const cameraRef = useRef(null)
 
@@ -96,6 +107,9 @@ const goTo = (index: number, pos: Array<number>) => {
  
   
  }
+
+
+ 
 const Collision = (props: any) => {
 
   return(
@@ -114,9 +128,9 @@ const Collision = (props: any) => {
   } rotation={props.rotation} scale={props.scale} position={props.position}>
   <boxGeometry />
   <meshPhongMaterial 
-  color={'lime'} 
+  color={light} 
   
-  emissive={'lime'}  transparent={true} opacity={currentComputer === props.index ? .7 : 0}/>
+  emissive={light}  transparent={true} opacity={currentComputer === props.index ? .7 : 0}/>
 </mesh>}
 </>
 )
@@ -142,7 +156,8 @@ const Collision = (props: any) => {
   
     return (
       <mesh scale={[0.2, 0.2, 0.1]} position={props.position}>
-        <circleGeometry />
+        {props.shape == 0  &&<circleGeometry />}
+        {props.shape == 1  &&<planeGeometry />}
         <meshStandardMaterial
         transparent={true}
         map={tex} />
@@ -158,6 +173,10 @@ const returnToRoom =() => {
 
 }
 
+const changeColor = (color: string) => {
+setLight(color)
+}
+
   return (
     <>   <div onClick={() => {
       if (usingComputer == -1) {
@@ -169,7 +188,7 @@ const returnToRoom =() => {
             goTo(1, [4, -2, -2.8]);
             break;
           case 2:
-            goTo(2, [-3, -1, -2]);
+            goTo(2, [-2, -1, -2.5]);
             break;
           default:
             // Optionally handle default case or do nothing
@@ -180,17 +199,20 @@ const returnToRoom =() => {
 <PerspectiveCamera
 position={new Vector3(cameraPos[0], cameraPos[1], cameraPos[2])}/>
        <Camera/>
-        <pointLight position={[0,1,-4]} intensity={shine / 1.2} color={'lime'}/>
+        <pointLight position={[0,1,-4]} intensity={shine / 1.8} color={light}/>
        <Collision index={0} scale={[2.5,1.8,1]} position={[.56,1, -4]}/>
-   <Sticker position={[0, -0.15, -7.200]} texture={tf}/>
-   <Sticker position={[2.9, .5, -7.200]} texture={op}/>
+   <Sticker shape={0} position={[0, -0.15, -7.200]} texture={tf}/>
+   <Sticker shape={0} position={[2.9, .5, -7.200]} texture={op}/>
    
-   <Sticker position={[-1.24, 2, -7.200]} texture={mk}/>
+   <Sticker shape={0} position={[-1.24, 2, -7.200]} texture={mk}/>
    
-   <Sticker position={[2.89, 2.2, -7.200]} texture={ymo}/>
+   <Sticker shape={0}  position={[2.89, 2.2, -7.200]} texture={ymo}/>
    
-   <Sticker position={[2.8, -0.1, -7.200]} texture={jags}/>
-   { usingComputer == 0 &&
+   <Sticker shape={0}  position={[2.8, -0.1, -7.200]} texture={jags}/>
+
+
+
+      { usingComputer == 0 &&
 <>
 <mesh scale={[3.45,2.55,1]} position={[.82,1.43,-7.2]}>
 <planeGeometry />
@@ -199,7 +221,7 @@ position={new Vector3(cameraPos[0], cameraPos[1], cameraPos[2])}/>
   <Computer1 onShut={returnToRoom}/>
   <pointLight
 intensity={10}
-color={'lime'}
+color={light}
 decay={.2}
 />
   </mesh>
@@ -222,12 +244,12 @@ decay={.2}
 <>
 <mesh scale={[3.45,2.55,1]} position={[.82,1.43,-7.2]}>
 <planeGeometry />
-  <meshPhongMaterial
+  <meshPhongMaterial 
   />
   <Computer2 onShut={returnToRoom}/>
 <pointLight
 intensity={10}
-color={'lime'}
+color={light}
 decay={.2}
 />
   </mesh>
@@ -247,10 +269,42 @@ decay={.2}
 
 
 
-        <pointLight position={[4,-2,-2]} intensity={shine} color={'lime'}/>
+{ usingComputer == 2 &&
+<>
+<mesh scale={[3,2,1]} position={[-7,0,0]}>
+<planeGeometry />
+  <meshPhongMaterial
+  
+  />
+  <Computer3 
+  changeColor={changeColor}
+  onShut={returnToRoom}/>
+<pointLight
+intensity={10}
+color={light}
+decay={.2}
+/>
+  </mesh>
+  
+  
+  <EffectComposer>
+  
+  
+  <Pixelation
+    granularity={3} // pixel granularity
+  />
+ 
+      </EffectComposer>
+  </>
+  }
+
+
+
+
+        <pointLight position={[4,-2,-2]} intensity={shine} color={light}/>
         <Collision rotation={[0,-.3,0]} index={1} scale={[3.3,2.4,.1]} position={[4.9,-1.85,-4]}/>
-        
-        <pointLight position={[-6,-2,-1]} intensity={shine} color={'lime'}/>
+
+        <pointLight position={[-6,-2,-1]} intensity={shine} color={light}/>
         <Collision rotation={[0,-5.1,0]} index={2} scale={[2.1,1.8,.1]} position={[-5.2,-.87,0.45]}/>
         
 

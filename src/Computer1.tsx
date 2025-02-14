@@ -9,6 +9,10 @@ import terminal_ic from './assets/baixados.png'
 import music_ic from './assets/cd_audio_cd_a-4.png'
 import video_ic from './assets/media_player_file-2.png'
 import computer_icon from './assets/baixados_.png'
+import messsage_icon from './assets/message_file-0.png'
+
+import camera_icon from './assets/camera-0.png'
+
 
 import icon from './assets/logo-DA53tF8t.png'
 import shut_icon from './assets/shut_down_normal-4.png'
@@ -63,7 +67,9 @@ scale={[1,1, 1]}
 <img onClick={() => setMainIndex(1)} className='program_icon' src={terminal_ic}/>
 <img onClick={() => setMainIndex(2)} className='program_icon' src={video_ic}/>
 <img onClick={() => setMainIndex(3)} className='program_icon' src={music_ic}/>
-<img onClick={() => setMainIndex(4)} className='program_icon' src={video_ic}/>
+
+<img onClick={() => setMainIndex(4)} className='program_icon' src={camera_icon}/>
+<img onClick={() => setMainIndex(4)} className='program_icon' src={messsage_icon}/>
 <img onClick={props.onShut} className='program_icon' src={shut_icon}/>
 
       </div>

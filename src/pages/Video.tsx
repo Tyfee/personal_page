@@ -5,16 +5,16 @@ const Video = () => {
     {
         title: "whatt",
         url: "",
-        views: "",
-        date: "",
+        views: 1,
+        date: "01/01/1999",
         duration: '6:00',
         thumb: "https://www.contentviewspro.com/wp-content/uploads/2017/07/default_image.png"
     },
     {
         title: "how to disappear completely",
         url: "",
-        views: "",
-        date: "",
+        views: 1,
+        date: "01/01/1999",
         duration: '1:34',
         thumb: "https://www.contentviewspro.com/wp-content/uploads/2017/07/default_image.png"
     }
@@ -29,7 +29,9 @@ const Video = () => {
         <a style={{textWrap: 'wrap',textAlign: 'start', textDecoration: 'underline'}} href={`${i.url}`}>{i.title}</a>
 <strong  style={{ color: 'black'}}>{i.duration}</strong>
 
-<a style={{textAlign: 'start', color: 'grey'}}>Added: {}</a>
+<a style={{textAlign: 'start', color: 'grey'}}>Added: <strong style={{color: 'black'}}>{i.date}</strong></a>
+<a style={{textAlign: 'start', color: 'grey'}}>Views: <strong style={{color: 'black'}}>{i.views}</strong></a>
+   
    </div>
    
     </div>
