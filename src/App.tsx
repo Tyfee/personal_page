@@ -3,7 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { useLoader, useThree } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { Decal, PerspectiveCamera } from '@react-three/drei'
+import { Decal, PerspectiveCamera, Text } from '@react-three/drei'
 import { Bloom, DotScreen, EffectComposer, Grid, LensFlare, Outline, Pixelation, Scanline } from '@react-three/postprocessing'
 import './App.css'
 import { Canvas } from '@react-three/fiber'
@@ -132,6 +132,16 @@ const Collision = (props: any) => {
   color={light} 
   
   emissive={light}  transparent={true} opacity={currentComputer === props.index ? .7 : 0}/>
+{props.shouldShow === true &&
+<Text 
+      position={props.textPosition} // Adjust the position above the mesh
+      fontSize={.3} 
+      color="white"
+      anchorX="center"
+      anchorY="middle"
+    >
+      {props.label} {/* Pass a label prop for customization */}
+    </Text>}
 </mesh>}
 </>
 )
@@ -165,7 +175,20 @@ const Collision = (props: any) => {
       </mesh>
     )
   }
+function Wall(){
+  const tex_loader = useLoader(THREE.TextureLoader, './brick_wall_08_diff_1k.jpg')
 
+return (
+  <>
+  <mesh scale={[40,40,1]} position={[1,0,-13]}>
+  <planeGeometry args={[1,1]}/>
+  <meshStandardMaterial 
+  metalness={.5}
+  map={tex_loader}/>
+  </mesh>
+  </>
+)
+}
 
 const returnToRoom =() => {
   setUsingComputer(-1)
@@ -204,7 +227,7 @@ setLight(color)
 position={new Vector3(cameraPos[0], cameraPos[1], cameraPos[2])}/>
        <Camera/>
         <pointLight position={[0,1,-4]} intensity={shine / 1.8} color={light}/>
-       <Collision index={0} scale={[2.5,1.8,1]} position={[.56,1, -4]}/>
+       <Collision shouldShow={currentComputer == 0} textPosition={[0, 0.9, 0]} label="MAINFRAME" index={0} scale={[2.5,1.8,1]} position={[.56,1, -4]}/>
    <Sticker shape={0} position={[0, -0.15, -7.200]} texture={tf}/>
    <Sticker shape={0} position={[2.9, .5, -7.200]} texture={op}/>
    
@@ -306,13 +329,14 @@ decay={.2}
 
 
         <pointLight position={[4,-2,-2]} intensity={shine} color={light}/>
-        <Collision rotation={[0,-.3,0]} index={1} scale={[3.3,2.4,.1]} position={[4.9,-1.85,-4]}/>
-
+        <Collision shouldShow={currentComputer == 1}  textPosition={[0, 0.9, 5]} label="BLOG" rotation={[0,-.3,0]} index={1} scale={[3.3,2.4,.1]} position={[4.9,-1.85,-4]}/>
+        
         <pointLight position={[-6,-2,-1]} intensity={shine} color={light}/>
-        <Collision rotation={[0,-5.1,0]} index={2} scale={[2.1,1.8,.1]} position={[-5.2,-.87,0.45]}/>
+        <Collision shouldShow={currentComputer == 2}  textPosition={[0, 0.9, 5]} label="SETTINGS" rotation={[0,-5.1,0]} index={2} scale={[2.1,1.8,.1]} position={[-5.2,-.87,0.45]}/>
         
 
         <ambientLight color={'white'} intensity={1}/>
+        <Wall/>
      <Computer/>
         </Canvas>
    </div>

@@ -40,3 +40,7 @@ font-family: 'b';
 .read-the-docs {
   color: #888;
 }
+
+@media screen (max-width: 600px) {
+  
+}
