@@ -1,6 +1,6 @@
 
 
-import me from '../assets/me.jpg'
+import me from '../assets/me.png'
 import './main.css'
 import soundcloud_ic from '../assets/Social_Media/Minimalistic_Shaded/Soundcloud.png'
 import twitch_ic from '../assets/Social_Media/Minimalistic_Shaded/Twitch.png'

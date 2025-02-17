@@ -4,7 +4,7 @@ import viteLogo from '/vite.svg'
 import { useLoader, useThree } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Decal, PerspectiveCamera } from '@react-three/drei'
-import { Bloom, EffectComposer, LensFlare, Pixelation } from '@react-three/postprocessing'
+import { Bloom, DotScreen, EffectComposer, Grid, LensFlare, Outline, Pixelation, Scanline } from '@react-three/postprocessing'
 import './App.css'
 import { Canvas } from '@react-three/fiber'
 import { AmbientLight, Scene } from 'three'
@@ -12,7 +12,7 @@ import { useSpring } from '@react-spring/three'
 import * as THREE from 'three'
 import { Vector3 } from 'three'
 import { updateCamera } from '@react-three/fiber/dist/declarations/src/core/utils'
-import { DecalGeometry } from 'three/examples/jsm/Addons.js'
+import { DecalGeometry, OutputPass, SobelOperatorShader } from 'three/examples/jsm/Addons.js'
 import tf from './assets/tf.jpg'
 import op from './assets/artpoin-one-piece-cute3.png'
 import mk from './assets/monokuma.png'
@@ -25,6 +25,7 @@ import { Html } from '@react-three/drei'
 import Computer1 from './Computer1'
 import Computer2 from './Computer2'
 import Computer3 from './Computer3'
+import { BoxBlurPass } from 'postprocessing'
 
 function Computer() {
   const gltf = useLoader(GLTFLoader, '/old_computers.glb')
@@ -195,7 +196,10 @@ setLight(color)
             break;
         }}
     }} style={{width: '100vw', height: '100vh'}} id="canvas-container">
-      <Canvas>         
+      <Canvas>    
+
+        
+       
 <PerspectiveCamera
 position={new Vector3(cameraPos[0], cameraPos[1], cameraPos[2])}/>
        <Camera/>
