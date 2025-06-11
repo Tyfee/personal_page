@@ -26,6 +26,7 @@ import Computer1 from './Computer1'
 import Computer2 from './Computer2'
 import Computer3 from './Computer3'
 import { BoxBlurPass } from 'postprocessing'
+import VideoPlane from './Video'
 
 function Computer() {
   const gltf = useLoader(GLTFLoader, '/old_computers.glb')
@@ -222,10 +223,27 @@ setLight(color)
       <Canvas>    
 
         
+  {/** video thing */}
+
        
 <PerspectiveCamera
 position={new Vector3(cameraPos[0], cameraPos[1], cameraPos[2])}/>
        <Camera/>
+
+       
+<VideoPlane 
+scale={[.75,0.99,.7]} position={[-3.03,3.45,-3]} rotation={[0,1,0]}
+color="pink"
+
+   lightPosition={[-3.2,3.7,-3]} 
+videoName="su"/>
+<VideoPlane 
+color="white"
+
+   lightPosition={[3,9.7,-12]} 
+scale={[1,1.2,.7]} position={[3,9.7,-12]} rotation={[0,-0.11,0]}
+videoName="eva"/>
+
         <pointLight position={[0,1,-4]} intensity={shine / 1.8} color={light}/>
        <Collision shouldShow={currentComputer == 0} textPosition={[0, 0.9, 0]} label="MAINFRAME" index={0} scale={[2.5,1.8,1]} position={[.56,1, -4]}/>
    <Sticker shape={0} position={[0, -0.15, -7.200]} texture={tf}/>
@@ -324,6 +342,8 @@ decay={.2}
       </EffectComposer>
   </>
   }
+
+ 
 
 
 

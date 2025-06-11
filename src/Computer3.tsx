@@ -15,8 +15,11 @@ const Computer3 = (props: any) => {
   return (
     <>
       <Html
-        scale={[.8, .8, .8]}
-        position={[0, -0.2, -0.48]}
+
+      transform
+        scale={[.2, .1, .2]}
+        position={[-0.3, -0.2, -1.22]}
+        rotation={[0,1.4,0]}
         style={{
           borderRadius: '50px',
           textAlign: 'center',

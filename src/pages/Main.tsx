@@ -12,7 +12,7 @@ const Main = () => {
         <>
         <div className='div' style={{
             backgroundColor: 'rgb(100, 255,100, .3)',
-            height: '400px'}}>
+            }}>
           <div style={{display: 'flex'}}>
             <img className='me' src={me}/>
  

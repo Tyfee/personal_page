@@ -30,8 +30,9 @@ const Computer1 = (props: any) => {
         <>
         
 <Html
-scale={[1,1, 1]}
- position={[-.4,.4,0]}
+ position={[.05, -0,0.5]}
+ scale={[.03,.04,.03]}
+ transform
     style={{
       borderRadius: '50px',       
       textAlign: 'center', 
@@ -44,7 +45,7 @@ scale={[1,1, 1]}
     <Window98
     icon={icon}
     actions={['minimize', 'close']}
-    width={"800px"}
+    width={"90%"}
     color={'#003303'}
     color2={'#517866'}
     title={programs[mainIndex]}

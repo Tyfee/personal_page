@@ -28,12 +28,13 @@ const Computer2 = (props: any) => {
         <>
     
 <Html
-scale={[1,1, 1]}
- position={[0.88,-.5,-1]}
+ scale={[.06,.07,.06]}
+ position={[1.45,-1.4,2]}
+ transform
     style={{
       borderRadius: '50px',       
       textAlign: 'center', 
-      transform:' perspective(200px) rotateY(1deg)',
+      transform:' perspective(200px) rotateY(-6.5deg) rotateZ(0.5deg)',
 
     animation: 'flicker 0.7s infinite alternate',
     
